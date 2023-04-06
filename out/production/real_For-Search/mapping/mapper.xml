@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.real.mapper.Mapper">
+<!--查询单个用户-->
+    <select id="selectUser" resultType="Person">
+        select * from `user`
+        where name = #{username}
+        and password = #{password}
+    </select>
+<!--通过用户名登录-->
+    <select id="selectName" resultType="Person">
+        select * from `user`
+        where name = #{username}
+    </select>
+<!--通过用户id登录-->
+    <select id="selectById" resultType="Person">
+        select * from `user`
+        where id = #{id}
+    </select>
+<!--增加一个用户-->
+    <insert id="addUser" parameterType="AddUser">
+        insert into `user` (`name`,`password`) values (#{username},#{password})
+    </insert>
+<!--修改一个用户-->
+<update id="updateUser" parameterType="Map">
+    update `user`
+    <set>
+        <if test="name != null">
+            name=#{name},
+        </if>
+        <if test="musicId != null">
+            musicId=#{musicId},
+        </if>
+        <if test="password != null">
+            password=#{password}
+        </if>
+    </set>
+    where id=#{id}
+</update>
+<!--删除一个用户-->
+    <delete id="deleteUser" >
+        delete from `user` where id=#{id}
+    </delete>
+<!--查询所有的网址，-->
+    <select id="selectAllUrl" resultType="Map">
+        select `urlName`,`url`,`imgName` from url limit #{index},6
+    </select>
+    <select id="selectUrl" resultType="Url">
+        select * from allurl where userId=#{id}
+    </select>
+<!--向allUrl表中添加网址，携带用户id-->
+    <insert id="insertById" parameterType="AddUrl">
+        insert into `allurl` (`urlName`,`url`,`imgName`,`userId`)
+        values (#{urlName},#{url},#{imgName},#{userId})
+    </insert>
+    <select id="selectUserById" resultType="Person">
+        select * from `user` where id=#{id}
+    </select>
+    <delete id="deleteTheUrl">
+        delete from `allurl` where userId=#{userId} and urlId=#{urlId}
+    </delete>
+</mapper>

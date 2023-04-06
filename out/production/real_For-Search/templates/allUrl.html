@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!--用户登录后跳转用户自定义的信息页-->
+<head>
+    <meta charset="utf-8">
+    <title>All Url</title>
+    <!-- 引入bootstrap -->
+    <link rel="stylesheet" href="public/bootstrap/css/bootstrap.min.css">
+    <script src="public/bootstrap/jquery/jquery-3.5.1.min.js"></script>
+    <!--通过添加?param=Math.random()来解除css的缓存，使得页面能后及时刷新-->
+    <link rel="stylesheet" href="public/bootstrap/css/beginPageCss1.css? " type="text/css">
+    <link rel="icon" href="public/bootstrap/img/m4.ico" type="image/x-icon">
+
+    <script>
+        document.querySelector("#btnJump").onclick = function(){
+
+            return false;
+
+        }
+    </script>
+
+</head>
+<body>
+<div style="height: 700px;width: 400px;margin-left: 350px;margin-top: 20px;">
+    <table class="table table-hover">
+        <caption>网页添加</caption>
+        <thead>
+        <tr>
+            <th>名称</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="Url:${lists}">
+            <td >
+                <img th:src="${Url.imgName}" style="width: 53px; height: 46px;" >
+                <span th:text="${Url.urlName}" style="margin-left: 10px">></span>
+                <!--添加按钮通过用户id写进数据库-->
+<!--                <button href="/addTheUrl" class="btn btn-default"-->
+<!--                        style="float:right" name="Url" th:value="${Url}">添加</button>-->
+                <form id="myForm" action="/addTheUrl" method="post">
+                    <input id="urlName" name="urlName" th:value="${Url.urlName}" hidden>
+                    <input id="url" name="url" th:value="${Url.url}" hidden>
+                    <input id="imgName" name="imgName" th:value="${Url.imgName}" hidden>
+                    <input class="btn btn-default" type="submit" value="添加" id="btnJump"
+                            style="float:right">添加</input>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <a class="btn btn-primary" th:href="@{'/addUrl?pageNum=0'}">首页</a>
+    <a class="btn btn-primary" th:href="@{'/addUrl?pageNum='+${pageNumPre}}">上一页</a>
+    <a class="btn btn-primary" th:href="@{'/addUrl?pageNum='+${pageNumNex}}">下一页</a>
+</div>
+</body>
+</html>
